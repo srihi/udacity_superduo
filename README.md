@@ -1,4 +1,4 @@
-# Superduo
+# SuperDuo
 ## Intro
 This is the repository for the submission of the superduo project for udacity nanodegree course.
 
