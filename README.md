@@ -16,4 +16,7 @@ The student will follow the following steps to improve the applications usabilit
 
 ### Missing functionality
   1. The scan functionality is not implemented yet.
+
+### Localization
+  1. Localizable resources should be marked as localizable while resources that stay the same in any language (like setting keys for example) should be marked as non localizable.
   
