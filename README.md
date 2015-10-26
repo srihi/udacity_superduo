@@ -8,6 +8,7 @@ The student will follow the following steps to improve the applications usabilit
 ## Alexandria
 ### Checking for edge cases and properly handling errors
   1. The application crashed when there is no internet connection instead of providing an appropriate error message.
+  2. When internet connection is missing, the download of the book image fails and the application does not provide a proper placeholder for the missing image.
   
 ### Accessibility
   1. The application does not implement accessibility features.
