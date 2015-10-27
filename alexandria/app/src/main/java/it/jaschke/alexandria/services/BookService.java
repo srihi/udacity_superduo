@@ -21,6 +21,7 @@ import java.net.URL;
 
 import it.jaschke.alexandria.MainActivity;
 import it.jaschke.alexandria.R;
+import it.jaschke.alexandria.Utility;
 import it.jaschke.alexandria.data.AlexandriaContract;
 
 
@@ -114,6 +115,7 @@ public class BookService extends IntentService {
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
+
                 return;
             }
 
@@ -124,13 +126,35 @@ public class BookService extends IntentService {
                 buffer.append("\n");
             }
 
-            if (buffer.length() == 0) {
+            if (buffer.length() == 0) 
+            {
+                //// TODO: 10/20/2015
+                // this means that the server has returned nothing. 
+                // Either the server is not online or the url is not the one that is intended for use with this application.
+                // One should display this status on the application. For the time being the user would not know what happened except getting an empty result.
+                broadcastMessageToCaller(getResources().getString(R.string.error_message_server_invalid));
                 return;
             }
             bookJsonString = buffer.toString();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
+            //// TODO: 10/20/2015
+            // Some exception occurred during the access of the the api server. Exact cause unknown.
+            // Likely because the url has changed or server is down.
+            if(!Utility.checkForNetworkState(this.getApplicationContext()))
+            {
+                broadcastMessageToCaller(getResources().getString(R.string.error_message_no_internet_connection_available));
+            }
+            else
+            {
+                broadcastMessageToCaller(getResources().getString(R.string.error_message_server_invalid));
+            }
             Log.e(LOG_TAG, "Error ", e);
-        } finally {
+            return;
+        } 
+        finally 
+        {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -156,15 +180,14 @@ public class BookService extends IntentService {
         final String IMG_URL_PATH = "imageLinks";
         final String IMG_URL = "thumbnail";
 
-        try {
+        try
+        {
             JSONObject bookJson = new JSONObject(bookJsonString);
             JSONArray bookArray;
             if(bookJson.has(ITEMS)){
                 bookArray = bookJson.getJSONArray(ITEMS);
             }else{
-                Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-                messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.not_found));
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+                broadcastMessageToCaller(getResources().getString(R.string.not_found));
                 return;
             }
 
@@ -193,12 +216,24 @@ public class BookService extends IntentService {
                 writeBackAuthors(ean, bookInfo.getJSONArray(AUTHORS));
             }
             if(bookInfo.has(CATEGORIES)){
-                writeBackCategories(ean,bookInfo.getJSONArray(CATEGORIES) );
+                writeBackCategories(ean, bookInfo.getJSONArray(CATEGORIES));
             }
-
-        } catch (JSONException e) {
+        } 
+        catch (JSONException e)
+        {
+            //return;
+            //// TODO: 10/20/2015
+            // the returned json string is not in the proper format. 
+            // This might mean that the server is either returning invalid results or server format has changed and app has not been updated.
+            broadcastMessageToCaller(getResources().getString(R.string.error_message_server_invalid));
             Log.e(LOG_TAG, "Error ", e);
         }
+    }
+
+    private void broadcastMessageToCaller(String message) {
+        Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+        messageIntent.putExtra(MainActivity.MESSAGE_KEY,message);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
     }
 
     private void writeBackBook(String ean, String title, String subtitle, String desc, String imgUrl) {
