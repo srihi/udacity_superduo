@@ -31,16 +31,22 @@ import barqsoft.footballscores.R;
 public class myFetchService extends IntentService
 {
     public static final String LOG_TAG = "myFetchService";
+    public static final String INTENT_DATA_UPDATED = "barqsoft.footballscores.ACTION_DATA_UPDATED";
+    public static final String NEXT_TWO_DAYs = "n2";
+    public static final String PREV_TWO_DAYS = "p2";
+    public static final String FETCH_SERVICE_NAME = "myFetchService";
+
     public myFetchService()
     {
-        super("myFetchService");
+        super(FETCH_SERVICE_NAME);
     }
 
     @Override
     protected void onHandleIntent(Intent intent)
     {
-        getData("n2");
-        getData("p2");
+        //get data for the past and next two days.
+        getData(NEXT_TWO_DAYs);
+        getData(PREV_TWO_DAYS);
 
         return;
     }
@@ -59,7 +65,8 @@ public class myFetchService extends IntentService
         BufferedReader reader = null;
         String JSON_data = null;
         //Opening Connection
-        try {
+        try
+        {
             URL fetch = new URL(fetch_build.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
@@ -178,7 +185,6 @@ public class myFetchService extends IntentService
         try {
             JSONArray matches = new JSONObject(JSONdata).getJSONArray(FIXTURES);
 
-
             //ContentValues to be inserted
             Vector<ContentValues> values = new Vector <ContentValues> (matches.length());
             for(int i = 0;i < matches.length();i++)
@@ -266,6 +272,9 @@ public class myFetchService extends IntentService
                     DatabaseContract.BASE_CONTENT_URI,insert_data);
 
             //Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
+            Intent intent = new Intent(INTENT_DATA_UPDATED)
+                    .setPackage(mContext.getPackageName());
+            mContext.sendBroadcast(intent);
         }
         catch (JSONException e)
         {

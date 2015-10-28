@@ -49,4 +49,5 @@ public class DatabaseContract
     public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
     public static final String PATH = "scores";
     public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+    public static Uri CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY+"/"+PATH);
 }

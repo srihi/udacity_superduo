@@ -7,4 +7,7 @@
     <dimen name="TeamNames">17sp</dimen>
     <dimen name="Score">30sp</dimen>
     <dimen name="League">15sp</dimen>
+    <dimen name="widget_margin">16dp</dimen>
+    <dimen name="min_widget_height">110dp</dimen>
+    <dimen name="min_widget_width">180dp</dimen>
 </resources>
