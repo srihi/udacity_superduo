@@ -21,3 +21,10 @@ The student will follow the following steps to improve the applications usabilit
 ### Localization
   1. Localizable resources should be marked as localizable while resources that stay the same in any language (like setting keys for example) should be marked as non localizable.
   
+## Football Scores
+- String resources are marked translatable if they are indeed
+translatable.
+- Widget implemented.
+- Content description for Share Button, which is the only button the
+user might interact with in the app.
+- Added layout mirroring by adding support for rtl applicaiton wide.
