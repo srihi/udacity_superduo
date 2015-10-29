@@ -33,13 +33,10 @@ public class DownloadImage extends AsyncTask<String, Void, Bitmap> {
         return bookCover;
     }
 
-    protected void onPostExecute(Bitmap result)
-    {
-        if(result != null) {
+    protected void onPostExecute(Bitmap result) {
+        if (result != null) {
             bmImage.setImageBitmap(result);
-        }
-        else
-        {
+        } else {
             bmImage.setImageBitmap(bmPlaceHolder);
         }
     }

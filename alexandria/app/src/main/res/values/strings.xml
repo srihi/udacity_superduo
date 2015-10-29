@@ -37,9 +37,10 @@
     <string name="error_message_server_offline" translatable="true">The server is currently offline. Please try again later.</string>
     <string name="error_message_invalid_isbn" translatable="true">The provided ISBN is not valid.</string>
     <string name="title_activity_bar_code_scanner" translatable="true">Scanner</string>
-    
+
     <!-- some content description for accessibility -->
     <string name="scan_button_description" translatable="true">Scan button to start barcode scanner.</string>
     <string name="cancel_book_add_description" translatable="true">Cancel adding this book.</string>
     <string name="next_book_add_button_descritpion" translatable="true">Continue to add next book.</string>
+    <string name="scanner_prompt" translatable="true">Scan for ISBN BarCode</string>
 </resources>
