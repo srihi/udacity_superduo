@@ -120,7 +120,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         if (Patterns.WEB_URL.matcher(imgUrl).matches()) {
             Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.image_unavailable);
-            new DownloadImage((ImageView) rootView.findViewById(R.id.bookCover), bm).execute(imgUrl);
+            new DownloadImage((ImageView) rootView.findViewById(R.id.fullBookCover), bm).execute(imgUrl);
             rootView.findViewById(R.id.fullBookCover).setVisibility(View.VISIBLE);
         }
 
